@@ -545,4 +545,6 @@ obj/
 .history
 .ionide
 
+*.bak
+
 # End of https://www.toptal.com/developers/gitignore/api/dotnetcore,csharp,visualstudiocode,aspnetcore
