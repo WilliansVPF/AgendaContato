@@ -1,7 +1,13 @@
+using AgendaContato.Interfaces.Interfaces;
+using AgendaContato.Repository.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//  container de injeção de dependencia
+builder.Services.AddScoped<IUsuarioRepository,UsuarioRepository>();
 
 var app = builder.Build();
 
