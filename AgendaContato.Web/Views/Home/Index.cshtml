@@ -13,22 +13,32 @@
     <article class="card" style="width: 24rem;">
         <div class="card-body">
             <h1 class="card-title text-center">Registro</h1>
-            <form asp-asp-controller="Home" asp-action="Registrar">
+            <form asp-controller="Home" asp-action="Registrar" method="post">
+
+                @if (!ViewData.ModelState.IsValid && ViewData.ModelState.Values.Any(v => v.Errors.Count > 0))
+                {
+                    <div asp-validation-summary="All" class="alert alert-danger"></div>
+                }
+                
                 <div class="mb-3">
                     <label for="nome" class="form-label">Nome</label>
-                    <input type="text" class="form-control" id="nome" placeholder="Digite seu nome" asp-for="Nome" required>
+                    <input type="text" class="form-control" id="nome" placeholder="Digite seu nome" asp-for="Nome"
+                        required>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="Digite seu email" asp-for="Email" required>
+                    <input type="email" class="form-control" id="email" placeholder="Digite seu email" asp-for="Email"
+                        required>
                 </div>
                 <div class="mb-3">
                     <label for="senha" class="form-label">Senha</label>
-                    <input type="password" class="form-control" id="senha" placeholder="Digite sua senha" asp-for="Senha" required>
+                    <input type="password" class="form-control" id="senha" placeholder="Digite sua senha"
+                        asp-for="Senha" required>
                 </div>
                 <div class="mb-3">
                     <label for="confirmeSenha" class="form-label">Confirme a Senha</label>
-                    <input type="password" class="form-control" id="confirmeSenha" placeholder="Confirme sua senha" required>
+                    <input type="password" class="form-control" id="confirmeSenha" placeholder="Confirme sua senha"
+                        required>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Registrar</button>
             </form>
