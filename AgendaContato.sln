@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaContato.Models", "Age
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaContato.Repository", "AgendaContato.Repository\AgendaContato.Repository.csproj", "{6B15BD65-6C47-475C-AA16-CC8C5654EB66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaContato.Interfaces", "AgendaContato.Interfaces\AgendaContato.Interfaces.csproj", "{86E230F9-B323-4ED7-8578-70146C795570}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{6B15BD65-6C47-475C-AA16-CC8C5654EB66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B15BD65-6C47-475C-AA16-CC8C5654EB66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B15BD65-6C47-475C-AA16-CC8C5654EB66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86E230F9-B323-4ED7-8578-70146C795570}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86E230F9-B323-4ED7-8578-70146C795570}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86E230F9-B323-4ED7-8578-70146C795570}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86E230F9-B323-4ED7-8578-70146C795570}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

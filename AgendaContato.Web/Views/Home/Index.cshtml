@@ -1,4 +1,6 @@
-﻿@{
+﻿@model UsuarioModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -7,22 +9,22 @@
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div> *@
 
-<div class="d-flex justify-content-end">
-    <div class="card" style="width: 24rem;">
+<section class="d-flex justify-content-end">
+    <article class="card" style="width: 24rem;">
         <div class="card-body">
-            <h5 class="card-title text-center">Registro</h5>
-            <form>
+            <h1 class="card-title text-center">Registro</h1>
+            <form asp-asp-controller="Home" asp-action="Registrar">
                 <div class="mb-3">
                     <label for="nome" class="form-label">Nome</label>
-                    <input type="text" class="form-control" id="nome" placeholder="Digite seu nome" required>
+                    <input type="text" class="form-control" id="nome" placeholder="Digite seu nome" asp-for="Nome" required>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="Digite seu email" required>
+                    <input type="email" class="form-control" id="email" placeholder="Digite seu email" asp-for="Email" required>
                 </div>
                 <div class="mb-3">
                     <label for="senha" class="form-label">Senha</label>
-                    <input type="password" class="form-control" id="senha" placeholder="Digite sua senha" required>
+                    <input type="password" class="form-control" id="senha" placeholder="Digite sua senha" asp-for="Senha" required>
                 </div>
                 <div class="mb-3">
                     <label for="confirmeSenha" class="form-label">Confirme a Senha</label>
@@ -31,5 +33,5 @@
                 <button type="submit" class="btn btn-primary w-100">Registrar</button>
             </form>
         </div>
-    </div>
-</div>
+    </article>
+</section>
