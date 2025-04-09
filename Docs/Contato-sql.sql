@@ -3,8 +3,8 @@ use AgendaContato;
 
 create table Usuario(
 idUsuario int primary key not null auto_increment,
-login varchar(45) not null unique,
 nome varchar(45) not null,
+email varchar(45) not null unique,
 senha varchar(60) not null,
 salt varchar(29) not null
 );
