@@ -6,6 +6,6 @@ namespace AgendaContato.Repository.Repository
     {
         private static readonly string _connectionString = Environment.GetEnvironmentVariable("AgendaContato");
 
-        public static MySqlConnection GetConnection() => new MySqlConnection(_connectionString);
+        public static MySqlConnection GetConnection => new MySqlConnection(_connectionString);
     }
 }
