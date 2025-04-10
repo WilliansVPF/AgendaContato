@@ -1,5 +1,7 @@
+using AgendaContato.CrossCutting.Filters;
 using AgendaContato.Interfaces.Interfaces;
 using AgendaContato.Repository.Repository;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,13 @@ builder.Services.AddControllersWithViews();
 
 //  container de injeção de dependencia
 builder.Services.AddScoped<IUsuarioRepository,UsuarioRepository>();
+
+builder.Services.AddScoped<GlobalExceptionFilter>();
+
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add(new TypeFilterAttribute(typeof(GlobalExceptionFilter)));
+});
 
 var app = builder.Build();
 
