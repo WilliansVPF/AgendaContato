@@ -4,6 +4,7 @@
     <ProjectReference Include="..\AgendaContato.Models\AgendaContato.Models.csproj" />
     <ProjectReference Include="..\AgendaContato.Interfaces\AgendaContato.Interfaces.csproj" />
     <ProjectReference Include="..\AgendaContato.Repository\AgendaContato.Repository.csproj" />
+    <ProjectReference Include="..\AgendaContato.CrossCutting\AgendaContato.CrossCutting.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
