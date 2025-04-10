@@ -7,4 +7,6 @@ public interface IUsuarioRepository
     bool CadastrarUsuario(UsuarioModel usuario);
 
     bool EmailExiste(string email);
+
+    UsuarioModel ObterUsuarioPorEmail(string email);
 }

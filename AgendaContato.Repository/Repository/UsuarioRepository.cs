@@ -8,7 +8,7 @@ public class UsuarioRepository : IUsuarioRepository
 {
     public bool CadastrarUsuario(UsuarioModel usuario)
     {
-        string sql = "INSERT INTO Usuario VALUES(0, @nome, @email, @senha)";
+        string sql = "INSERT INTO Usuario VALUES(0, @nome, @email, @senha, @salt)";
 
         try
         {
@@ -17,6 +17,7 @@ public class UsuarioRepository : IUsuarioRepository
             command.Parameters.AddWithValue("@email", usuario.Email);
             command.Parameters.AddWithValue("@nome", usuario.Nome);
             command.Parameters.AddWithValue("@senha", usuario.Senha);
+            command.Parameters.AddWithValue("@salt", usuario.Salt);
 
             connection.Open();
             command.ExecuteNonQuery();
@@ -55,5 +56,10 @@ public class UsuarioRepository : IUsuarioRepository
         {
             throw new Exception($"Erro inesperado ao verificar o email '{email}'.", ex);
         }
+    }
+
+    public UsuarioModel ObterUsuarioPorEmail(string email)
+    {
+        throw new NotImplementedException();
     }
 }
