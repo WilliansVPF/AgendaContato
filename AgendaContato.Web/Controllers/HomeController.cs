@@ -42,7 +42,7 @@ public class HomeController : Controller
             Senha = usuarioModel.Senha
         };
 
-
+        _usuarioRepository.CadastrarUsuario(usuario);
 
         return View();
     }
