@@ -27,13 +27,7 @@
                         </li>
                     </ul>
                     <div style="margin-right: 100px;">
-                        <form action="">
-                            <div class="d-flex align-items-center">
-                                <input type="text" class="form-control me-2" name="logim" placeholder="Login" />
-                                <input type="password" class="form-control me-2" name="senha" placeholder="Senha" />
-                                <button type="submit" class="btn btn-primary">Entrar</button>
-                            </div>
-                        </form>
+                        @await Component.InvokeAsync(nameof(LoginViewComponent))
                     </div>
                 </div>
             </div>

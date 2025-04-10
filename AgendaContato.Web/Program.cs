@@ -1,3 +1,4 @@
+using AgendaContato.Application.Services;
 using AgendaContato.CrossCutting.Filters;
 using AgendaContato.Interfaces.Interfaces;
 using AgendaContato.Repository.Repository;
@@ -8,8 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-//  container de injeção de dependencia
+//  container de injeção de dependencia repositories
 builder.Services.AddScoped<IUsuarioRepository,UsuarioRepository>();
+
+// container de injeção de dependencia services
+builder.Services.AddScoped<IHashSenha, HashSenha>();
 
 builder.Services.AddScoped<GlobalExceptionFilter>();
 
