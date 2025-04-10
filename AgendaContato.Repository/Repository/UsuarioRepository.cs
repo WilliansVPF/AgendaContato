@@ -8,13 +8,13 @@ public class UsuarioRepository : IUsuarioRepository
 {
     public bool CadastrarUsuario(UsuarioModel usuario)
     {
-        string sql = "INSERT INTO usuario VALUES(0, @login,  @nome, @senha)";
+        string sql = "INSERT INTO Usuario VALUES(0, @nome, @email, @senha)";
 
         try
         {
             using var connection = Conexao.GetConnection;
             using var command = new MySqlCommand(sql, connection);
-            command.Parameters.AddWithValue("@login", usuario.Email);
+            command.Parameters.AddWithValue("@email", usuario.Email);
             command.Parameters.AddWithValue("@nome", usuario.Nome);
             command.Parameters.AddWithValue("@senha", usuario.Senha);
 
