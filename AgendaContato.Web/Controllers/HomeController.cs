@@ -35,9 +35,11 @@ public class HomeController : Controller
         var salt = _hashSenha.GerarSalt;
         var senha = _hashSenha.GerarHash(usuarioLogin.Senha, salt);
 
+        var usuario = _usuarioRepository.ObterUsuarioPorEmail(usuarioLogin.Email);
 
 
-        return View("Index", "User");
+
+        return RedirectToAction("Index", "User");
     }
 
     [HttpPost]
