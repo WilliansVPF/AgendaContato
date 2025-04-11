@@ -76,7 +76,7 @@ public class UsuarioRepository : IUsuarioRepository
             {
                 usuario = new UsuarioModel
                 {
-                    IdUsuario = reader.GetInt32("id"),
+                    IdUsuario = reader.GetInt32("idUsuario"),
                     Nome = reader.GetString("nome"),
                     Email = reader.GetString("email"),
                     Senha = reader.GetString("senha"),
