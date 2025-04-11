@@ -60,6 +60,38 @@ public class UsuarioRepository : IUsuarioRepository
 
     public UsuarioModel ObterUsuarioPorEmail(string email)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var usuario = new UsuarioModel();
+            string sql = "SELECT * FROM Usuario WHERE email = @email";
+            using var connection = Conexao.GetConnection;
+            using var command = new MySqlCommand(sql, connection);
+            connection.Open();
+
+            command.Parameters.AddWithValue("@email", email);
+            
+            using var reader = command.ExecuteReader(); 
+
+            while (reader.Read())
+            {
+                usuario = new UsuarioModel
+                {
+                    IdUsuario = reader.GetInt32("id"),
+                    Nome = reader.GetString("nome"),
+                    Email = reader.GetString("email"),
+                    Senha = reader.GetString("senha"),
+                    Salt = reader.GetString("salt")
+                };                
+            }
+            return usuario;
+        }
+        catch (MySqlException sqlEx)
+        {
+            throw new Exception($"Erro de banco de dados ao obter o usuário pelo email '{email}': {sqlEx.Message}", sqlEx);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Erro inesperado ao obter o usuário pelo email '{email}'.", ex);
+        }
     }
 }
