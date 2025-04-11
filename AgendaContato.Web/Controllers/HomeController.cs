@@ -37,7 +37,7 @@ public class HomeController : Controller
 
 
 
-        return View();
+        return View("Index", "User");
     }
 
     [HttpPost]
@@ -72,7 +72,7 @@ public class HomeController : Controller
 
         _sessao.CriarSessao(usuario);
 
-        return View();
+        return RedirectToAction("Index", "User");
     }
 
     public IActionResult Privacy()
