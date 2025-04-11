@@ -12,9 +12,14 @@ builder.Services.AddControllersWithViews();
 //  container de injeção de dependencia repositories
 builder.Services.AddScoped<IUsuarioRepository,UsuarioRepository>();
 
+// injeção de dependencia HttpContextAccessor
+builder.Services.AddScoped<HttpContextAccessor, HttpContextAccessor>();
+
 // container de injeção de dependencia services
 builder.Services.AddScoped<IHashSenha, HashSenha>();
+builder.Services.AddScoped<ISessao, SessaoManager>();
 
+// container de injeção de dependencia filtro de exceção
 builder.Services.AddScoped<GlobalExceptionFilter>();
 
 builder.Services.AddControllersWithViews(options =>
