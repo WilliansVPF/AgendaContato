@@ -9,11 +9,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddHttpContextAccessor();
+
 //  container de injeção de dependencia repositories
 builder.Services.AddScoped<IUsuarioRepository,UsuarioRepository>();
 
 // injeção de dependencia HttpContextAccessor
-builder.Services.AddScoped<HttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddSingleton<HttpContextAccessor, HttpContextAccessor>();
 
 // container de injeção de dependencia services
 builder.Services.AddScoped<IHashSenha, HashSenha>();
@@ -26,6 +28,15 @@ builder.Services.AddControllersWithViews(options =>
 {
     options.Filters.Add(new TypeFilterAttribute(typeof(GlobalExceptionFilter)));
 });
+
+builder.Services.AddSession(
+    o =>
+    {
+        // o.IdleTimeout = TimeSpan.FromMinutes(30);
+        o.Cookie.HttpOnly = true;
+        o.Cookie.IsEssential = true;
+    }
+);
 
 var app = builder.Build();
 
@@ -43,6 +54,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
