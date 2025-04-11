@@ -11,12 +11,14 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     private readonly IUsuarioRepository _usuarioRepository;
     private readonly IHashSenha _hashSenha;
+    private readonly ISessao _sessao;
 
-    public HomeController(ILogger<HomeController> logger, IUsuarioRepository usuarioRepository, IHashSenha hashSenha)
+    public HomeController(ILogger<HomeController> logger, IUsuarioRepository usuarioRepository, IHashSenha hashSenha, ISessao sessao)
     {
         _usuarioRepository = usuarioRepository;
         _logger = logger;
         _hashSenha = hashSenha;
+        _sessao = sessao;
     }
     public IActionResult Index()
     {
@@ -65,6 +67,10 @@ public class HomeController : Controller
         };
 
         _usuarioRepository.CadastrarUsuario(usuario);
+
+        usuario = _usuarioRepository.ObterUsuarioPorEmail(usuarioModel.Email);
+
+        _sessao.CriarSessao(usuario);
 
         return View();
     }
