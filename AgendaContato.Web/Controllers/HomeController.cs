@@ -12,13 +12,15 @@ public class HomeController : Controller
     private readonly IUsuarioRepository _usuarioRepository;
     private readonly IHashSenha _hashSenha;
     private readonly ISessao _sessao;
+    private readonly IValidaSenha _validaSenha;
 
-    public HomeController(ILogger<HomeController> logger, IUsuarioRepository usuarioRepository, IHashSenha hashSenha, ISessao sessao)
+    public HomeController(ILogger<HomeController> logger, IUsuarioRepository usuarioRepository, IHashSenha hashSenha, ISessao sessao, IValidaSenha validaSenha)
     {
         _usuarioRepository = usuarioRepository;
         _logger = logger;
         _hashSenha = hashSenha;
         _sessao = sessao;
+        _validaSenha = validaSenha;
     }
     public IActionResult Index()
     {
@@ -55,6 +57,12 @@ public class HomeController : Controller
         {
             ModelState.AddModelError("Email", "Email já cadastrado");
             return View("Index");
+        }
+
+        if (!_validaSenha.SenhaValida(usuarioModel.Senha, out string erroSenha))
+        {
+            ModelState.AddModelError("Senha", erroSenha);
+            return View("Index"); // Garante que o form permaneça preenchido
         }
 
         var salt = _hashSenha.GerarSalt;
