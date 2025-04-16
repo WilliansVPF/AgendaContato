@@ -1,4 +1,5 @@
 using AgendaContato.Application.Services;
+using AgendaContato.Application.Validations;
 using AgendaContato.CrossCutting.Filters;
 using AgendaContato.Interfaces.Interfaces;
 using AgendaContato.Repository.Repository;
@@ -20,6 +21,7 @@ builder.Services.AddSingleton<HttpContextAccessor, HttpContextAccessor>();
 // container de injeção de dependencia services
 builder.Services.AddScoped<IHashSenha, HashSenha>();
 builder.Services.AddScoped<ISessao, SessaoManager>();
+builder.Services.AddScoped<IValidaSenha, ValidaSenha>();
 
 // container de injeção de dependencia filtro de exceção
 builder.Services.AddScoped<GlobalExceptionFilter>();
