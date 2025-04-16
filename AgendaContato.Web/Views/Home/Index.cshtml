@@ -15,30 +15,52 @@
             <h1 class="card-title text-center">Registro</h1>
             <form asp-controller="Home" asp-action="Registrar" method="post">
 
-                @if (!ViewData.ModelState.IsValid && ViewData.ModelState.Values.Any(v => v.Errors.Count > 0))
+                @* @if (!ViewData.ModelState.IsValid && ViewData.ModelState.Values.Any(v => v.Errors.Count > 0))
                 {
                     <div asp-validation-summary="All" class="alert alert-danger"></div>
-                }
+                } *@
+
                 
+                @{
+                    var nomeError = ViewData.ModelState["Nome"]?.Errors.FirstOrDefault()?.ErrorMessage;
+                    var emailError = ViewData.ModelState["Email"]?.Errors.FirstOrDefault()?.ErrorMessage;
+                    var senhaError = ViewData.ModelState["Senha"]?.Errors.FirstOrDefault()?.ErrorMessage;
+                    var confirmarSenhaError = ViewData.ModelState["ConfirmarSenha"]?.Errors.FirstOrDefault()?.ErrorMessage;
+                }
+
                 <div class="mb-3">
                     <label for="nome" class="form-label">Nome</label>
-                    <input type="text" class="form-control" id="nome" placeholder="Digite seu nome" asp-for="Nome"
-                        required>
+                    @* <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite seu nome" asp-for="Nome" value="teste"> *@
+                    <input type="text" class="form-control @(!string.IsNullOrEmpty(nomeError) ? "is-invalid" : "")"
+                        id="nome" name="nome"
+                        placeholder="@(!string.IsNullOrEmpty(nomeError) ? nomeError : "Digite seu nome")"
+                        asp-for="Nome">
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="Digite seu email" asp-for="Email"
-                        required>
+                    <input type="email" class="form-control @(!string.IsNullOrEmpty(emailError) ? "is-invalis" : "")"
+                        id="email" name="email"
+                        placeholder="@(!string.IsNullOrEmpty(emailError) ? emailError : "Digite seu email")"
+                        asp-for="Email" required>
+                    @if (!string.IsNullOrEmpty(emailError))
+                    {
+                        <div class="invalid-feedback d-block">@emailError</div>
+                    }
                 </div>
                 <div class="mb-3">
                     <label for="senha" class="form-label">Senha</label>
-                    <input type="password" class="form-control" id="senha" placeholder="Digite sua senha"
-                        asp-for="Senha" required>
+                    <input type="password" class="form-control @(!string.IsNullOrEmpty(senhaError) ? "is-invalid" : "")"
+                        id="senha" name="senha"
+                        placeholder="@(!string.IsNullOrEmpty(senhaError) ? senhaError : "Digite sua senha")"
+                        asp-for="Senha">
                 </div>
                 <div class="mb-3">
-                    <label for="confirmeSenha" class="form-label">Confirme a Senha</label>
-                    <input type="password" class="form-control" id="confirmeSenha" placeholder="Confirme sua senha"
-                        required>
+                    <label for="confirmarSenha" class="form-label">Confirme a Senha</label>
+                    <input type="password"
+                        class="form-control @(!string.IsNullOrEmpty(confirmarSenhaError) ? "is-invalid" : "")"
+                        id="confirmarSenha" name="confirmarSenha"
+                        placeholder="@(!string.IsNullOrEmpty(confirmarSenhaError) ? confirmarSenhaError : "Confirme sua senha")"
+                        asp-for="ConfirmarSenha">
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Registrar</button>
             </form>
