@@ -14,6 +14,11 @@ namespace  AgendaContato.Models.Models
 
         [Required(ErrorMessage = "Campo obrigatório")]
         public string Senha { get; set; }
+
+        [Compare("Senha", ErrorMessage = "As senhas não conferem")]
+        [Required(ErrorMessage = "Campo obrigatório")]
+        public string ConfirmarSenha { get; set; }
+        
         public string? Salt { get; set; }
     }
 }
