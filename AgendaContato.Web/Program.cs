@@ -22,6 +22,7 @@ builder.Services.AddSingleton<HttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IHashSenha, HashSenha>();
 builder.Services.AddScoped<ISessao, SessaoManager>();
 builder.Services.AddScoped<IValidaSenha, ValidaSenha>();
+builder.Services.AddScoped<IValidaEmail, ValidaEmail>();
 
 // container de injeção de dependencia filtro de exceção
 builder.Services.AddScoped<GlobalExceptionFilter>();
