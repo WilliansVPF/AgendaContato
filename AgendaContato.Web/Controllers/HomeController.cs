@@ -13,14 +13,17 @@ public class HomeController : Controller
     private readonly IHashSenha _hashSenha;
     private readonly ISessao _sessao;
     private readonly IValidaSenha _validaSenha;
+    private readonly IValidaEmail _validaEmail;
 
-    public HomeController(ILogger<HomeController> logger, IUsuarioRepository usuarioRepository, IHashSenha hashSenha, ISessao sessao, IValidaSenha validaSenha)
+    public HomeController(ILogger<HomeController> logger, IUsuarioRepository usuarioRepository, IHashSenha hashSenha, ISessao sessao, IValidaSenha validaSenha,
+                          IValidaEmail validaEmail)
     {
         _usuarioRepository = usuarioRepository;
         _logger = logger;
         _hashSenha = hashSenha;
         _sessao = sessao;
         _validaSenha = validaSenha;
+        _validaEmail = validaEmail;
     }
     public IActionResult Index()
     {
@@ -49,6 +52,13 @@ public class HomeController : Controller
     {
         if (!ModelState.IsValid)
         {
+            return View("Index");
+        }
+
+        // Verifica se o email é válido
+        if (!_validaEmail.EmailValido(usuarioModel.Email, out string erroEmail))
+        {
+            ModelState.AddModelError("Email", erroEmail);
             return View("Index");
         }
 
