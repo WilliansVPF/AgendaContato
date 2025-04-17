@@ -27,6 +27,12 @@ public class ValidaSenha : IValidaSenha
                 return false;
             }
 
+            if (!Regex.IsMatch(senha, "[a-z]"))
+            {
+                mensagemErro = "A senha deve conter ao menos uma letra minúscula.";
+                return false;
+            }
+
             if (!Regex.IsMatch(senha, "[0-9]"))
             {
                 mensagemErro = "A senha deve conter ao menos um número.";
