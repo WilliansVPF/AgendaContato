@@ -4,23 +4,12 @@
     ViewData["Title"] = "Home Page";
 }
 
-@* <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div> *@
-
 <section class="d-flex justify-content-end">
     <article class="card" style="width: 24rem;">
         <div class="card-body">
             <h1 class="card-title text-center">Registro</h1>
             <form asp-controller="Home" asp-action="Registrar" method="post">
 
-                @* @if (!ViewData.ModelState.IsValid && ViewData.ModelState.Values.Any(v => v.Errors.Count > 0))
-                {
-                    <div asp-validation-summary="All" class="alert alert-danger"></div>
-                } *@
-
-                
                 @{
                     var nomeError = ViewData.ModelState["Nome"]?.Errors.FirstOrDefault()?.ErrorMessage;
                     var emailError = ViewData.ModelState["Email"]?.Errors.FirstOrDefault()?.ErrorMessage;
@@ -30,37 +19,29 @@
 
                 <div class="mb-3">
                     <label for="nome" class="form-label">Nome</label>
-                    @* <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite seu nome" asp-for="Nome" value="teste"> *@
                     <input type="text" class="form-control @(!string.IsNullOrEmpty(nomeError) ? "is-invalid" : "")"
-                        id="nome" name="nome"
-                        placeholder="@(!string.IsNullOrEmpty(nomeError) ? nomeError : "Digite seu nome")"
-                        asp-for="Nome">
+                        id="nome" name="nome" placeholder="Digite seu nome" asp-for="Nome">
+                    <span asp-validation-for="Nome" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control @(!string.IsNullOrEmpty(emailError) ? "is-invalis" : "")"
-                        id="email" name="email"
-                        placeholder="@(!string.IsNullOrEmpty(emailError) ? emailError : "Digite seu email")"
-                        asp-for="Email" required>
-                    @if (!string.IsNullOrEmpty(emailError))
-                    {
-                        <div class="invalid-feedback d-block">@emailError</div>
-                    }
+                    <input type="email" class="form-control @(!string.IsNullOrEmpty(emailError) ? "is-invalid" : "")"
+                        id="email" name="email" placeholder="Digite seu email" asp-for="Email" required>
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
                     <label for="senha" class="form-label">Senha</label>
                     <input type="password" class="form-control @(!string.IsNullOrEmpty(senhaError) ? "is-invalid" : "")"
-                        id="senha" name="senha"
-                        placeholder="@(!string.IsNullOrEmpty(senhaError) ? senhaError : "Digite sua senha")"
-                        asp-for="Senha">
+                        id="senha" name="senha" placeholder="Digite sua senha" asp-for="Senha">
+                    <span asp-validation-for="Senha" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
                     <label for="confirmarSenha" class="form-label">Confirme a Senha</label>
                     <input type="password"
                         class="form-control @(!string.IsNullOrEmpty(confirmarSenhaError) ? "is-invalid" : "")"
-                        id="confirmarSenha" name="confirmarSenha"
-                        placeholder="@(!string.IsNullOrEmpty(confirmarSenhaError) ? confirmarSenhaError : "Confirme sua senha")"
+                        id="confirmarSenha" name="confirmarSenha" placeholder="Confirme sua senha"
                         asp-for="ConfirmarSenha">
+                    <span asp-validation-for="ConfirmarSenha" class="text-danger"></span>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Registrar</button>
             </form>
