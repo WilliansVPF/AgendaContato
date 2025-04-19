@@ -30,20 +30,34 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Login(UsuarioLogin usuarioLogin)
+    public IActionResult Login(IFormCollection form)
     {
         if (!ModelState.IsValid)
         {
             return View("Index");
-        }
+        } 
+
+        var usuario = _usuarioRepository.ObterUsuarioPorEmail(form["email"]);       
 
         var salt = _hashSenha.GerarSalt;
-        var senha = _hashSenha.GerarHash(usuarioLogin.Senha, salt);
+        var senha = _hashSenha.GerarHash(form["senha"], salt);
 
-        var usuario = _usuarioRepository.ObterUsuarioPorEmail(usuarioLogin.Email);
+        if (usuario.Senha != senha)
+        {
+            ModelState.AddModelError("Senha", "Senha inválida");
+            return View("Index");
+        }
 
+        var usuarioSessao = new UsuarioSessaoModel
+        {
+            Id = usuario.IdUsuario,
+            Nome = usuario.Nome,
+            Email = usuario.Email
+        };
 
+        _sessao.CriarSessao(usuarioSessao);
 
+        
         return RedirectToAction("Index", "User");
     }
 
@@ -90,7 +104,14 @@ public class HomeController : Controller
 
         usuario = _usuarioRepository.ObterUsuarioPorEmail(usuarioModel.Email);
 
-        _sessao.CriarSessao(usuario);
+        var usuarioSessao = new UsuarioSessaoModel
+        {
+            Id = usuario.IdUsuario,
+            Nome = usuario.Nome,
+            Email = usuario.Email
+        };
+
+        _sessao.CriarSessao(usuarioSessao);
 
         return RedirectToAction("Index", "User");
     }
