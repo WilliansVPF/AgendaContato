@@ -1,6 +1,6 @@
 using System.Text.Json;
 using AgendaContato.Interfaces.Interfaces;
-using AgendaContato.Models.Models;
+using AgendaContato.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 
 namespace AgendaContato.Application.Services;
@@ -13,19 +13,19 @@ public class SessaoManager : ISessao
     {
         _httpContextAccessor = httpContextAccessor;
     }
-    public void CriarSessao(UsuarioModel usuario)
+    public void CriarSessao(UsuarioSessaoModel usuario)
     {
         string sessao = JsonSerializer.Serialize(usuario);
         _httpContextAccessor.HttpContext.Session.SetString("SessaoUsuario", sessao);
     }
 
-    public UsuarioModel ObterUsuarioSessao()
+    public UsuarioSessaoModel ObterUsuarioSessao()
     {
         string sessao = _httpContextAccessor.HttpContext.Session.GetString("SessaoUsuario");
 
         if (string.IsNullOrEmpty(sessao)) return null;
 
-        return JsonSerializer.Deserialize<UsuarioModel>(sessao);
+        return JsonSerializer.Deserialize<UsuarioSessaoModel>(sessao);
     }
 
     public void RemoverSessao()
