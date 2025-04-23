@@ -44,7 +44,7 @@ public class HomeController : Controller
 
         if (usuario.Senha != senha)
         {
-            ModelState.AddModelError("Senha", "Senha inválida");
+            ModelState.AddModelError("Usuario", "Senha incorreta");
             return View("Index");
         }
 
