@@ -4,6 +4,26 @@
     ViewData["Title"] = "Home Page";
 }
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@{
+    var erroUsuario = ViewData.ModelState["Usuario"]?.Errors.FirstOrDefault()?.ErrorMessage;
+}
+
+@using System.Text.Json
+@if (!string.IsNullOrEmpty(erroUsuario))
+{
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro ao fazer login',
+            text: '@erroUsuario',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK'
+        });
+    </script>
+}
+
 <section class="d-flex justify-content-end">
     <article class="card" style="width: 24rem;">
         <div class="card-body">
