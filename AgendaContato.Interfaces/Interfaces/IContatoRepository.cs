@@ -4,5 +4,5 @@ namespace AgendaContato.Interfaces.Interfaces;
 
 public interface IContatoRepository
 {
-    void NovoContato(ContatoModel contato, EnderecoContatoModel endereco, int idUsuario);
+    void NovoContato(ContatoModel contato, EnderecoContatoModel endereco, int? idUsuario);
 }
