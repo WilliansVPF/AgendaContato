@@ -1,0 +1,103 @@
+@model ContatoEnderecoViewModel
+
+@{
+    ViewData["Title"] = "Cadastrar Contato";
+}
+
+@* <div class="container mt-5">
+    <h2 class="text-center">Cadastrar Contato</h2>
+    <form asp-controller="User" asp-action="RegistrarContato" class="d-flex justify-content-around flex-wrap" method="post">
+        <div style="min-width: 500px;">
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="nome" name="Nome" placeholder="Digite o nome" asp-for="Contato.Nome">
+            </div>
+            <div class="mb-3">
+                <label for="sobrenome" class="form-label">Sobrenome</label>
+                <input type="text" class="form-control" id="sobrenome" name="Sobrenome" placeholder="Digite o sobrenome">
+            </div>
+        </div>
+
+        <div style="min-width: 500px;">
+            <div class="mb-3">
+                <label for="tipoContato" class="form-label">Tipo Contato</label>
+                <select name="tipoContato" id="tipoContato" class="form-select" style="width: 150px;">
+                    <option value="1">Telefone</option>
+                    <option value="2">Celular</option>
+                    <option value="3">E-Mail</option>
+                    <option value="4">Fax</option>
+                    <option value="5">Outros</option>
+                </select>
+
+            </div>
+            <div class="mb-3">
+                <label for="valor" class="form-label">Email</label>
+                <input type="text" class="form-control" id="valor" name="Valor" placeholder="Digite o contato" required>
+            </div>
+            <div class="mb-3">
+                <label for="observacao" class="form-label">Observação</label>
+                <input type="text" class="form-control" id="observacao" name="Observacao"
+                    placeholder="Digite  observação">
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary" style="height: 40px;">Cadastrar</button>
+            </div>
+
+        </div>
+
+    </form>
+</div> *@
+
+<div class="container mt-5">
+    <h2 class="text-center">Cadastrar Contato</h2>
+    <form asp-controller="User" asp-action="RegistrarContato" class="d-flex justify-content-around flex-wrap" method="post">
+        <div style="min-width: 500px;">
+            <div class="mb-3">
+                <label asp-for="Contato.Nome" class="form-label"></label>
+                <input type="text" class="form-control" asp-for="Contato.Nome" placeholder="Digite o nome" />
+                <span asp-validation-for="Contato.Nome" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Contato.Sobrenome" class="form-label"></label>
+                <input type="text" class="form-control" asp-for="Contato.Sobrenome" placeholder="Digite o sobrenome" />
+                <span asp-validation-for="Contato.Sobrenome" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div style="min-width: 500px;">
+            <div class="mb-3">
+                <label asp-for="Endereco.IdTipoContato" class="form-label"></label>
+                <select asp-for="Endereco.IdTipoContato" class="form-select" style="width: 150px;">
+                    <option value="">Selecione</option>
+                    <option value="1">Telefone</option>
+                    <option value="2">Celular</option>
+                    <option value="3">E-Mail</option>
+                    <option value="4">Fax</option>
+                    <option value="5">Outros</option>
+                </select>
+                <span asp-validation-for="Endereco.IdTipoContato" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Endereco.Valor" class="form-label"></label>
+                <input type="text" class="form-control" asp-for="Endereco.Valor" placeholder="Digite o contato" />
+                <span asp-validation-for="Endereco.Valor" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Endereco.Observacao" class="form-label"></label>
+                <input type="text" class="form-control" asp-for="Endereco.Observacao" placeholder="Digite observação" />
+                <span asp-validation-for="Endereco.Observacao" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary" style="height: 40px;">Cadastrar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
