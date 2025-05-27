@@ -27,6 +27,9 @@ public class HomeController : Controller
     }
     public IActionResult Index()
     {
+        var usuario = _sessao.ObterUsuarioSessao();
+        if (usuario != null) return RedirectToAction("Index", "User");
+
         return View();
     }
 
@@ -39,8 +42,7 @@ public class HomeController : Controller
 
         var usuario = _usuarioRepository.ObterUsuarioPorEmail(form["email"]);       
 
-        var salt = _hashSenha.GerarSalt;
-        var senha = _hashSenha.GerarHash(form["senha"], salt);
+        var senha = _hashSenha.GerarHash(form["senha"], usuario.Salt);
 
         if (usuario.Senha != senha)
         {
