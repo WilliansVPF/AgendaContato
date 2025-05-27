@@ -2,4 +2,99 @@
     ViewData["Title"] = "Home Usuario";
 }
 
-<h1>Logado</h1>
+<a class="me-5 btn btn-success" asp-controller="User" asp-action="CadastraContato">+ Novo contato</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Sobrenome</th>
+            <th>Ação</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Linha principal -->
+        <tr class="clickable-row">
+            <td>João</td>
+            <td colspan="2">Pedro</td>
+        </tr>
+        <!-- Linha oculta com subtabela -->
+        <tr class="hidden-row">
+            <td colspan="3">
+                <strong>Detalhes sobre João:</strong>
+                <table class="subtable">
+                    <thead>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>Contato</th>
+                            <th>Observação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Telefone</td>
+                            <td>(12)21526548</td>
+                            <td>Casa</td>
+                        </tr>
+                        <tr>
+                            <td>Telefone</td>
+                            <td>(12)987964587</td>
+                            <td>Celular</td>
+                        </tr>
+                        <tr></tr>
+                            <td>E-mail</td>
+                            <td>joao@email.com</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+
+        <tr class="clickable-row">
+            <td>Maria</td>
+            <td>30</td>
+            <td>Clique para detalhes</td>
+        </tr>
+        <tr class="hidden-row">
+            <td colspan="3">
+                <strong>Detalhes sobre Maria:</strong>
+                <table class="subtable">
+                    <thead>
+                        <tr>
+                            <th>Projeto</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Campanha de Marketing</td>
+                            <td>Ativo</td>
+                        </tr>
+                        <tr>
+                            <td>Blog Pessoal</td>
+                            <td>Em Andamento</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let rows = document.querySelectorAll(".clickable-row");
+
+        rows.forEach(function (row) {
+            row.addEventListener("click", function () {
+                let hiddenRow = this.nextElementSibling;
+
+                if (hiddenRow.classList.contains("hidden-row")) {
+                    hiddenRow.style.display = (hiddenRow.style.display === "none" || hiddenRow.style.display === "") ? "table-row" : "none";
+                }
+            });
+        });
+    });
+</script>
