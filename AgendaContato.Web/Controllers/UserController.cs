@@ -12,10 +12,13 @@ public class UserController : Controller
     private readonly ILogger<UserController> _logger;
     private readonly ISessao _sessao;
 
-    public UserController(ILogger<UserController> logger, ISessao sessao)
+    private readonly IContatoRepository _contatoRepository;
+
+    public UserController(ILogger<UserController> logger, ISessao sessao, IContatoRepository contatoRepository)
     {
         _logger = logger;
         _sessao = sessao;
+        _contatoRepository = contatoRepository;
     }
 
     public IActionResult Index()
@@ -36,7 +39,7 @@ public class UserController : Controller
         return View();
     }
 
-
+    [HttpPost]
     public IActionResult RegistrarContato(ContatoEnderecoViewModel viewModel)
     {
         if (!ModelState.IsValid)
@@ -47,7 +50,11 @@ public class UserController : Controller
         ContatoModel contato = ContatoEnderecoToContato(viewModel);
         EnderecoContatoModel enderecoContato = ContatoEnderecoToEnderecoContato(viewModel);
 
-        return View();
+        var usuario = _sessao.ObterUsuarioSessao();
+
+        _contatoRepository.NovoContato(contato, enderecoContato, usuario.Id);
+
+        return View("Index");
     }
 
     private ContatoModel ContatoEnderecoToContato(ContatoEnderecoViewModel viewModel)
