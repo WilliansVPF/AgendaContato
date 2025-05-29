@@ -10,64 +10,15 @@ namespace AgendaContato.Repository.Repository;
 public class ContatoRepository : IContatoRepository
 {
     public IEnumerable<ExibeContatosViewModel> CarregaContatos(int? idUsuario)
-    {
-        var lista = new List<ExibeContatosViewModel>();
-
+    {        
         try
         {
             using var connection = Conexao.GetConnection;
             connection.Open();
 
-            string sqlContatos = "SELECT * FROM Contato WHERE idUsuario = @idUsuario";
+            var contatos = ObterContatos(connection, idUsuario);
+            var lista = MontaListaExibeContatos(connection, contatos);
 
-            using var commandContato = new MySqlCommand(sqlContatos, connection);
-            commandContato.Parameters.AddWithValue("@idUsuario", idUsuario);
-
-            using var readerContato = commandContato.ExecuteReader();
-            var contatos = new List<ContatoModel>();
-
-            while (readerContato.Read())
-            {
-                contatos.Add(new ContatoModel
-                {
-                    IdContato = Convert.ToInt32(readerContato["idContato"]),
-                    Nome = readerContato["nome"].ToString(),
-                    Sobrenome = readerContato["sobrenome"].ToString(),
-                    IdUsuario = Convert.ToInt32(readerContato["idUsuario"])
-                });
-            }
-
-            readerContato.Close();
-
-            foreach (var contato in contatos)
-            {
-                string sqlEnderecos = "SELECT * FROM EnderecoContato WHERE idContato = @idContato";
-
-                using var commandEndereco = new MySqlCommand(sqlEnderecos, connection);
-                commandEndereco.Parameters.AddWithValue("@idContato", contato.IdContato);
-
-                using var readEndereco = commandEndereco.ExecuteReader();
-                var enderecos = new List<EnderecoContatoModel>();
-
-                while (readEndereco.Read())
-                {
-                    enderecos.Add(new EnderecoContatoModel
-                    {
-                        IdEnderecoContato = Convert.ToInt32(readEndereco["idEnderecoContato"]),
-                        Valor = readEndereco["valor"].ToString(),
-                        Observacao = readEndereco["observacao"].ToString(),
-                        IdTipoContato = Convert.ToInt32(readEndereco["idTipoContato"]),
-                        IdContato = Convert.ToInt32(readEndereco["idContato"])
-                    });
-                }
-
-                lista.Add(new ExibeContatosViewModel
-                {
-                    Contato = contato,
-                    EnderecosContato = enderecos
-                });
-
-            }
             return lista;
         }
         catch (MySqlException sqlEx)
@@ -77,8 +28,74 @@ public class ContatoRepository : IContatoRepository
         catch (Exception ex)
         {
             throw new Exception($"Erro inesperado ao tentar carregar os contatos", ex);
+        }        
+    }
+
+    private List<ContatoModel> ObterContatos(MySqlConnection connection, int? idUsuario)
+    {
+        var lista = new List<ContatoModel>();
+
+        string sql = "SELECT * FROM Contato WHERE idUsuario = @idUsuario";
+
+        using var command = new MySqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@idUsuario", idUsuario);
+
+        using var reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+            lista.Add(new ContatoModel
+            {
+                IdContato = Convert.ToInt32(reader["idContato"]),
+                Nome = reader["nome"].ToString(),
+                Sobrenome = reader["sobrenome"].ToString(),
+                IdUsuario = Convert.ToInt32(reader["idUsuario"])
+            });
         }
-        
+
+        return lista;
+    }
+
+    private List<ExibeContatosViewModel> MontaListaExibeContatos(MySqlConnection connection, List<ContatoModel> contatos)
+    {
+        var lista = new List<ExibeContatosViewModel>();
+
+        foreach (var contato in contatos)
+        {
+            var enderecos = ObterEnderecosContato(connection, contato.IdContato);
+
+            lista.Add(new ExibeContatosViewModel
+            {
+                Contato = contato,
+                EnderecosContato = enderecos
+            });
+        }
+
+        return lista;
+    }
+
+    private List<EnderecoContatoModel> ObterEnderecosContato(MySqlConnection connection, int? idContato)
+    {
+        var lista = new List<EnderecoContatoModel>();
+
+        string sql = "SELECT * FROM EnderecoContato WHERE idContato = @idContato";
+
+        using var command = new MySqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@idContato", idContato);
+
+        using var reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+            lista.Add(new EnderecoContatoModel
+            {
+            IdEnderecoContato = Convert.ToInt32(reader["idEnderecoContato"]),
+            Valor = reader["valor"].ToString(),
+            Observacao = reader["observacao"].ToString(),
+            IdTipoContato = Convert.ToInt32(reader["idTipoContato"]),
+            IdContato = Convert.ToInt32(reader["idContato"])
+            });
+        }
+
+        return lista;
     }
 
     public void NovoContato(ContatoModel contato, EnderecoContatoModel endereco, int? idUsuario)
