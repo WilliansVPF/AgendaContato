@@ -25,7 +25,10 @@ public class UserController : Controller
     {
         var usuario = _sessao.ObterUsuarioSessao();
         if (usuario == null) return RedirectToAction("Index", "Home");
-        return View();
+
+        var listaContatos = _contatoRepository.CarregaContatos(usuario.Id);
+
+        return View(listaContatos);
     }
 
     public IActionResult Logout()
