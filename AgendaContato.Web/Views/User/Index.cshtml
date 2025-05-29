@@ -1,98 +1,129 @@
+@model IEnumerable<ExibeContatosViewModel>
+
 @{
     ViewData["Title"] = "Home Usuario";
 }
 
 <a class="me-5 btn btn-success" asp-controller="User" asp-action="CadastraContato">+ Novo contato</a>
 
-<table>
-    <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Sobrenome</th>
-            <th>Ação</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- Linha principal -->
-        <tr class="clickable-row">
-            <td>João</td>
-            <td colspan="2">Pedro</td>
-        </tr>
-        <!-- Linha oculta com subtabela -->
-        <tr class="hidden-row">
-            <td colspan="3">
-                <strong>Detalhes sobre João:</strong>
-                <table class="subtable">
-                    <thead>
-                        <tr>
-                            <th>Tipo</th>
-                            <th>Contato</th>
-                            <th>Observação</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Telefone</td>
-                            <td>(12)21526548</td>
-                            <td>Casa</td>
-                        </tr>
-                        <tr>
-                            <td>Telefone</td>
-                            <td>(12)987964587</td>
-                            <td>Celular</td>
-                        </tr>
-                        <tr></tr>
+
+<div class="container">
+    <table class="table table-bordered subtable">
+        <thead>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Sobrenome</th>
+                <th scope="col">Ação</th>
+                <th>*</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td><button class="btn btn-warning">Editar</button> <button class="btn btn-danger">Apagar</button>
+                </td>
+                <td><button class="btn btn-primary expand">Ver mais</button></td>
+            </tr>
+
+            <!--Linha Oculta  -->
+            <tr class="hidden-row">
+                <td colspan="4">
+                    <strong>Detalhes sobre João:</strong>
+                    <table class="subtable table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Contato</th>
+                                <th>Observação</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Telefone</td>
+                                <td>(12)21526548</td>
+                                <td>Casa</td>
+                                <td><button class="btn btn-warning">Editar</button> <button
+                                        class="btn btn-danger">Apagar</button>
+                            </tr>
+                            <tr>
+                                <td>Telefone</td>
+                                <td>(12)987964587</td>
+                                <td>Celular</td>
+                                <td><button class="btn btn-warning">Editar</button> <button
+                                        class="btn btn-danger">Apagar</button>
+                            </tr>
+                            <tr></tr>
                             <td>E-mail</td>
                             <td>joao@email.com</td>
                             <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </td>
-        </tr>
+                            <td><button class="btn btn-warning">Editar</button> <button
+                                    class="btn btn-danger">Apagar</button>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
 
-        <tr class="clickable-row">
-            <td>Maria</td>
-            <td>30</td>
-            <td>Clique para detalhes</td>
-        </tr>
-        <tr class="hidden-row">
-            <td colspan="3">
-                <strong>Detalhes sobre Maria:</strong>
-                <table class="subtable">
-                    <thead>
-                        <tr>
-                            <th>Projeto</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Campanha de Marketing</td>
-                            <td>Ativo</td>
-                        </tr>
-                        <tr>
-                            <td>Blog Pessoal</td>
-                            <td>Em Andamento</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </td>
-        </tr>
-    </tbody>
-</table>
+            @foreach (var contato in Model)
+            {
+                <tr>
+                    <td>@contato.Contato.Nome</td>
+                    <td>@contato.Contato.Sobrenome</td>
+                    <td><button class="btn btn-warning">Editar</button> <button class="btn btn-danger">Apagar</button>
+                    </td>
+                    <td><button class="btn btn-primary expand">Ver mais</button></td>
+                </tr>
+
+                @*! Linha Oculta *@
+                <tr class="hidden-row">
+                    <td colspan="4">
+                        <strong>Detalhes sobre @contato.Contato.Nome:</strong>
+                        <table class="subtable table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Tipo</th>
+                                    <th>Contato</th>
+                                    <th>Observação</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var endereco in contato.EnderecosContato)
+                                {
+                                    <td>@endereco.IdTipoContato</td>
+                                    <td>@endereco.Valor</td>
+                                    <td>@endereco.Observacao</td>
+                                    <td><button class="btn btn-warning">Editar</button> <button
+                                            class="btn btn-danger">Apagar</button></td>
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        let rows = document.querySelectorAll(".clickable-row");
+        let buttons = document.querySelectorAll(".expand");
 
-        rows.forEach(function (row) {
-            row.addEventListener("click", function () {
-                let hiddenRow = this.nextElementSibling;
+        buttons.forEach(function (button) {
+            button.addEventListener("click", function (event) {
+                let hiddenRow = this.closest("tr").nextElementSibling;
 
                 if (hiddenRow.classList.contains("hidden-row")) {
-                    hiddenRow.style.display = (hiddenRow.style.display === "none" || hiddenRow.style.display === "") ? "table-row" : "none";
+                    // Verifica se a linha está oculta
+                    let isHidden = hiddenRow.style.display === "none" || hiddenRow.style.display === "";
+
+                    // Alterna visibilidade da linha
+                    hiddenRow.style.display = isHidden ? "table-row" : "none";
+
+                    // Atualiza o texto do botão
+                    this.textContent = isHidden ? "Ver menos" : "Ver mais";
                 }
             });
         });
