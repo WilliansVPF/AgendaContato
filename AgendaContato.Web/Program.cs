@@ -15,6 +15,7 @@ builder.Services.AddHttpContextAccessor();
 //  container de injeção de dependencia repositories
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IContatoRepository, ContatoRepository>();
+builder.Services.AddScoped<IEnderecoContatoRepository, EnderecoContatoRepository>();
 
 // injeção de dependencia HttpContextAccessor
 builder.Services.AddSingleton<HttpContextAccessor, HttpContextAccessor>();
