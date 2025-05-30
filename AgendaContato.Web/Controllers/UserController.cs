@@ -57,7 +57,7 @@ public class UserController : Controller
 
         _contatoRepository.NovoContato(contato, enderecoContato, usuario.Id);
 
-        return View("Index");
+        return RedirectToAction("Index", "User");
     }
 
     private ContatoModel ContatoEnderecoToContato(ContatoEnderecoViewModel viewModel)
@@ -77,5 +77,10 @@ public class UserController : Controller
             Observacao = viewModel.Endereco.Observacao,
             IdTipoContato = viewModel.Endereco.IdTipoContato
         };
+    }
+
+    public IActionResult CadastraEnderecoContato(int? id)
+    {
+        return View();
     }
 }
