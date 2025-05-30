@@ -29,11 +29,10 @@ observacao varchar(45),
 idTipoContato int not null,
 idContato int not null,
 foreign key (idTipoContato) references TipoContato (idTipoContato),
-foreign key (idContato) references Contato (idContato)
+foreign key (idContato) references Contato (idContato) on delete cascade
 );
 
 insert into TipoContato values(0, "Telefone");
 insert into TipoContato values(0, "Fax");
 insert into TipoContato values(0, "Email");
 insert into TipoContato values(0, "Site");
-
