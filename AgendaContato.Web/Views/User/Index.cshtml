@@ -54,12 +54,13 @@
                                 <td><button class="btn btn-warning">Editar</button> <button
                                         class="btn btn-danger">Apagar</button>
                             </tr>
-                            <tr></tr>
-                            <td>E-mail</td>
-                            <td>joao@email.com</td>
-                            <td></td>
-                            <td><button class="btn btn-warning">Editar</button> <button
-                                    class="btn btn-danger">Apagar</button>
+                            <tr>
+                                <td>E-mail</td>
+                                <td>joao@email.com</td>
+                                <td></td>
+                                <td><button class="btn btn-warning">Editar</button> <button
+                                        class="btn btn-danger">Apagar</button>
+                            </tr>
                         </tbody>
                     </table>
                 </td>
@@ -91,15 +92,19 @@
                             <tbody>
                                 @foreach (var endereco in contato.EnderecosContato)
                                 {
-                                    <td>@endereco.IdTipoContato</td>
-                                    <td>@endereco.Valor</td>
-                                    <td>@endereco.Observacao</td>
-                                    <td><button class="btn btn-warning">Editar</button> <button
-                                            class="btn btn-danger">Apagar</button></td>
+                                    <tr>
+                                        <td>@endereco.IdTipoContato</td>
+                                        <td>@endereco.Valor</td>
+                                        <td>@endereco.Observacao</td>
+                                        <td><button class="btn btn-warning">Editar</button> <button
+                                                class="btn btn-danger">Apagar</button></td>
+                                    </tr>
                                 }
                             </tbody>
                         </table>
-                        <div class="d-flex justify-content-end"><a asp-controller="User" asp-action="CadastraEnderecoContato" asp-route-id="@contato.Contato.IdContato" class="btn btn-success">Novo Endereço de Contato</a></div>
+                        <div class="d-flex justify-content-end"><a asp-controller="User"
+                                asp-action="CadastraEnderecoContato" asp-route-idContato="@contato.Contato.IdContato"
+                                class="btn btn-success">Novo Endereço de Contato</a></div>
                     </td>
                 </tr>
             }
