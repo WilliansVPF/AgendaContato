@@ -14,11 +14,14 @@ public class UserController : Controller
 
     private readonly IContatoRepository _contatoRepository;
 
-    public UserController(ILogger<UserController> logger, ISessao sessao, IContatoRepository contatoRepository)
+    private readonly IEnderecoContatoRepository _enderecoContaoReposittory;
+
+    public UserController(ILogger<UserController> logger, ISessao sessao, IContatoRepository contatoRepository, IEnderecoContatoRepository enderecoContatoRepository)
     {
         _logger = logger;
         _sessao = sessao;
         _contatoRepository = contatoRepository;
+        _enderecoContaoReposittory = enderecoContatoRepository;
     }
 
     public IActionResult Index()
@@ -79,8 +82,30 @@ public class UserController : Controller
         };
     }
 
-    public IActionResult CadastraEnderecoContato(int? id)
+    public IActionResult CadastraEnderecoContato(int idContato, int? idEnderecoContato)
     {
-        return View();
+        var enderecoContato = new EnderecoContatoModel
+        {
+            IdContato = idContato
+        };
+
+        if (idEnderecoContato != null)
+        {
+
+        }
+
+        return View(enderecoContato);
+    }
+
+    public IActionResult RegistrarEnderecoContato(EnderecoContatoModel endereco)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View("CadastraContato");
+        }
+
+        if (!_enderecoContaoReposittory.CadastraEnderecoCOntato(endereco)) return View();
+
+        return RedirectToAction("Index", "User");
     }
 }
