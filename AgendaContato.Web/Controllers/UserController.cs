@@ -122,4 +122,13 @@ public class UserController : Controller
         var contato = _contatoRepository.CarregaContato(id);
         return View(contato);
     }
+
+    public IActionResult Atualiza(ContatoModel contato)
+    {
+        if (!ModelState.IsValid) return NotFound();
+
+        _contatoRepository.AtualizaContato(contato);
+
+        return RedirectToAction("Index", "User");
+    }
 }
