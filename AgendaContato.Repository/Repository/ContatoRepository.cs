@@ -208,7 +208,7 @@ public class ContatoRepository : IContatoRepository
             using var reader = command.ExecuteReader();
             while (reader.Read())
             {
-                contato.IdContato = reader.GetInt32("idCOntato");
+                contato.IdContato = reader.GetInt32("idContato");
                 contato.Nome = reader.GetString("nome");
                 contato.Sobrenome = reader.GetString("sobrenome");
             }
