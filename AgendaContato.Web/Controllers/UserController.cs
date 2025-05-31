@@ -82,17 +82,14 @@ public class UserController : Controller
         };
     }
 
-    public IActionResult CadastraEnderecoContato(int idContato, int? idEnderecoContato)
+    public IActionResult CadastraEnderecoContato(int idContato, int idEnderecoContato)
     {
         var enderecoContato = new EnderecoContatoModel
         {
             IdContato = idContato
         };
 
-        if (idEnderecoContato != null)
-        {
-
-        }
+        if (idEnderecoContato != 0) enderecoContato = _enderecoContaoReposittory.BuscaEnderecoContato(idEnderecoContato);
 
         return View(enderecoContato);
     }
@@ -104,12 +101,13 @@ public class UserController : Controller
             return View("CadastraContato");
         }
 
-        if (!_enderecoContaoReposittory.CadastraEnderecoCOntato(endereco)) return View();
+        if (endereco.IdEnderecoContato != null) _enderecoContaoReposittory.AtualizaEndereco(endereco);
+        else if (!_enderecoContaoReposittory.CadastraEnderecoCOntato(endereco)) return View();
 
         return RedirectToAction("Index", "User");
     }
 
-    public IActionResult Deleta(int id)
+    public IActionResult DeletaContato(int id)
     {
         if (id == 0) return NotFound();
         _contatoRepository.DeletaContato(id);
@@ -129,6 +127,13 @@ public class UserController : Controller
 
         _contatoRepository.AtualizaContato(contato);
 
+        return RedirectToAction("Index", "User");
+    }
+
+        public IActionResult DeletaEndereco(int id)
+    {
+        if (id == 0) return NotFound();
+        _enderecoContaoReposittory.DeletaEnderecoContato(id);
         return RedirectToAction("Index", "User");
     }
 }
