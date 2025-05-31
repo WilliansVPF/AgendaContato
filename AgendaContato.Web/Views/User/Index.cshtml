@@ -72,7 +72,7 @@
                     <td>@contato.Contato.Nome</td>
                     <td>@contato.Contato.Sobrenome</td>
                     <td><a class="btn btn-warning" asp-controller="User" asp-action="AtualizaContato" asp-route-id="@contato.Contato.IdContato">Editar</a> 
-                        <a class="btn btn-danger" asp-controller="User" asp-action="Deleta" asp-route-id="@contato.Contato.IdContato">Apagar</a>
+                        <a class="btn btn-danger" asp-controller="User" asp-action="DeletaContato" asp-route-id="@contato.Contato.IdContato">Apagar</a>
                     </td>
                     <td><button class="btn btn-primary expand">Ver mais</button></td>
                 </tr>
@@ -97,8 +97,9 @@
                                         <td>@endereco.IdTipoContato</td>
                                         <td>@endereco.Valor</td>
                                         <td>@endereco.Observacao</td>
-                                        <td><button class="btn btn-warning">Editar</button> <button
-                                                class="btn btn-danger">Apagar</button></td>
+                                        <td><a class="btn btn-warning" asp-controller="User" asp-action="CadastraEnderecoContato" asp-route-idEnderecoContato="@endereco.IdEnderecoContato">Editar</a> 
+                                            <a class="btn btn-danger" asp-controller="User" asp-action="DeletaEndereco" asp-route-id="@endereco.IdEnderecoContato">Apagar</a>
+                                        </td>
                                     </tr>
                                 }
                             </tbody>
