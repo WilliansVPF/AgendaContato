@@ -8,5 +8,7 @@ public interface IEnderecoContatoRepository
 
     EnderecoContatoModel BuscaEnderecoContato(int id);
 
-    
+    void AtualizaEndereco(EnderecoContatoModel endereco);
+
+    void DeletaEnderecoContato(int id);
 }
