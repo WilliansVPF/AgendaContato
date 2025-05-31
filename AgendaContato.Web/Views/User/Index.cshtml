@@ -71,7 +71,8 @@
                 <tr>
                     <td>@contato.Contato.Nome</td>
                     <td>@contato.Contato.Sobrenome</td>
-                    <td><button class="btn btn-warning">Editar</button> <button class="btn btn-danger">Apagar</button>
+                    <td><a class="btn btn-warning" asp-controller="User" asp-action="AtualizaContato" asp-route-id="@contato.Contato.IdContato">Editar</a> 
+                        <a class="btn btn-danger" asp-controller="User" asp-action="Deleta" asp-route-id="@contato.Contato.IdContato">Apagar</a>
                     </td>
                     <td><button class="btn btn-primary expand">Ver mais</button></td>
                 </tr>
