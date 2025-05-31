@@ -7,5 +7,11 @@ public interface IContatoRepository
 {
     void NovoContato(ContatoModel contato, EnderecoContatoModel endereco, int? idUsuario);
 
-    IEnumerable<ExibeContatosViewModel> CarregaContatos(int? idUsuario);
+    IEnumerable<ExibeContatosViewModel> CarregaContatosEnderecos(int? idUsuario);
+
+    void DeletaContato(int id);
+
+    void AtualizaContato(ContatoModel contato);
+
+    ContatoModel CarregaContato(int id);
 }

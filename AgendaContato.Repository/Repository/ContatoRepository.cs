@@ -9,7 +9,7 @@ namespace AgendaContato.Repository.Repository;
 
 public class ContatoRepository : IContatoRepository
 {
-    public IEnumerable<ExibeContatosViewModel> CarregaContatos(int? idUsuario)
+    public IEnumerable<ExibeContatosViewModel> CarregaContatosEnderecos(int? idUsuario)
     {        
         try
         {
@@ -141,6 +141,86 @@ public class ContatoRepository : IContatoRepository
         catch (Exception ex)
         {
             throw new Exception($"Erro inesperado ao cadastrar o contato '{contato.Nome}'.", ex);
+        }
+    }
+
+    public void DeletaContato(int id)
+    {
+        try
+        {
+            using var connection = Conexao.GetConnection;
+            connection.Open();
+
+            string sql = "DELETE FROM Contato WHERE idContato = @idContato;";
+
+            using var command = new MySqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@idContato", id);
+            command.ExecuteNonQuery();
+        }
+        catch (MySqlException sqlEx)
+        {
+            throw new Exception($"Erro de banco de dados ao deletar o contato: {sqlEx.Message}", sqlEx);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Erro inesperado ao deletar o contato.", ex);
+        }
+    }
+
+    public void AtualizaContato(ContatoModel contato)
+    {
+        try
+        {
+            using var connection = Conexao.GetConnection;
+            connection.Open();
+
+            string sql = "UPDATE Contato SET nome = @nome, sobrenome = @sobrenome WHERE idContato = @idContato";
+
+            using var command = new MySqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@nome", contato.Nome);
+            command.Parameters.AddWithValue("@sobrenome", contato.Sobrenome);
+            command.Parameters.AddWithValue("@idContato", contato.IdContato);
+            command.ExecuteNonQuery();
+        }
+        catch (MySqlException sqlEx)
+        {
+            throw new Exception($"Erro de banco de dados ao atualizar o contato: {sqlEx.Message}", sqlEx);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Erro inesperado ao atualizar o contato.", ex);
+        }
+    }
+
+    public ContatoModel CarregaContato(int id)
+    {
+        var contato = new ContatoModel();
+        try
+        {
+            using var connection = Conexao.GetConnection;
+            connection.Open();
+
+            string sql = "SELECT * FROM Contato WHERE idCOntato = @idContato;";
+
+            using var command = new MySqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@idContato", id);
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                contato.IdContato = reader.GetInt32("idCOntato");
+                contato.Nome = reader.GetString("nome");
+                contato.Sobrenome = reader.GetString("sobrenome");
+            }
+            return contato;
+        }
+        catch (MySqlException sqlEx)
+        {
+            throw new Exception($"Erro de banco de dados ao atualizar o contato: {sqlEx.Message}", sqlEx);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Erro inesperado ao atualizar o contato.", ex);
         }
     }
 }
