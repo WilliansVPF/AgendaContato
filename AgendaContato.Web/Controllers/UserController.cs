@@ -29,7 +29,7 @@ public class UserController : Controller
         var usuario = _sessao.ObterUsuarioSessao();
         if (usuario == null) return RedirectToAction("Index", "Home");
 
-        var listaContatos = _contatoRepository.CarregaContatos(usuario.Id);
+        var listaContatos = _contatoRepository.CarregaContatosEnderecos(usuario.Id);
 
         return View(listaContatos);
     }
@@ -107,5 +107,19 @@ public class UserController : Controller
         if (!_enderecoContaoReposittory.CadastraEnderecoCOntato(endereco)) return View();
 
         return RedirectToAction("Index", "User");
+    }
+
+    public IActionResult Deleta(int id)
+    {
+        if (id == 0) return NotFound();
+        _contatoRepository.DeletaContato(id);
+        return RedirectToAction("Index", "User");
+    }
+
+    public IActionResult AtualizaContato(int id)
+    {
+        if (id == 0) return NotFound();
+        var contato = _contatoRepository.CarregaContato(id);
+        return View(contato);
     }
 }
