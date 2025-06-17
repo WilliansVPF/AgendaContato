@@ -2,8 +2,11 @@ using AgendaContato.Application.Services;
 using AgendaContato.Application.Validations;
 using AgendaContato.CrossCutting.Filters;
 using AgendaContato.Interfaces.Interfaces;
+using AgendaContato.Models.Models;
+using AgendaContato.Models.ViewModels;
 using AgendaContato.Repository.Repository;
 using Microsoft.AspNetCore.Mvc;
+using AgendaContato.Mappes.Mappes;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +28,7 @@ builder.Services.AddScoped<IHashSenha, HashSenha>();
 builder.Services.AddScoped<ISessao, SessaoManager>();
 builder.Services.AddScoped<IValidaSenha, ValidaSenha>();
 builder.Services.AddScoped<IValidaEmail, ValidaEmail>();
+builder.Services.AddScoped<IRequestMapper<RegistraUsuarioViewModel, UsuarioModel>, RegistraUsuarioViewModelToUsuarioModel>();
 
 // container de injeção de dependencia filtro de exceção
 builder.Services.AddScoped<GlobalExceptionFilter>();
@@ -41,6 +45,13 @@ builder.Services.AddSession(
         o.Cookie.HttpOnly = true;
         o.Cookie.IsEssential = true;
     }
+);
+
+builder.Services.Scan(scan => scan
+    .FromAssemblyOf<RegistraUsuarioViewModelToUsuarioModel>()
+    .AddClasses(classes => classes.AssignableTo(typeof(IRequestMapper<,>)))
+    .AsImplementedInterfaces()
+    .WithScopedLifetime()
 );
 
 var app = builder.Build();
