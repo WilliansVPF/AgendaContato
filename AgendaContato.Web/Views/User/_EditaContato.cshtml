@@ -1,0 +1,25 @@
+@model ContatoModel
+
+<div class="modal-header">
+    <h5 class="modal-title">Editar Contato</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <form id="formEditaContato">
+        <input type="hidden" asp-for="IdContato" />
+
+        <div class="mb-3">
+            <label asp-for="Nome" class="form-label"></label>
+            <input asp-for="Nome" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Sobrenome" class="form-label"></label>
+            <input asp-for="Sobrenome" class="form-control" />
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+    <button type="button" class="btn btn-primary" onclick="salvarEdicao()">Salvar</button>
+</div>

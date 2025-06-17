@@ -4,6 +4,20 @@
     ViewData["Title"] = "Home Usuario";
 }
 
+@* @if (TempData["Sucesso"] != null)
+{
+    <div id="alertSucesso" class="alert alert-success" role="alert">
+        @TempData["Sucesso"]
+    </div>
+
+    <script>
+        setTimeout(function () {
+            let alert = document.getElementById('alertSucesso');
+            if (alert) alert.style.display = 'none';
+        }, 3000);
+    </script>
+} *@
+
 <a class="me-5 btn btn-success" asp-controller="User" asp-action="CadastraContato">+ Novo contato</a>
 
 
@@ -18,61 +32,16 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td><button class="btn btn-warning">Editar</button> <button class="btn btn-danger">Apagar</button>
-                </td>
-                <td><button class="btn btn-primary expand">Ver mais</button></td>
-            </tr>
-
-            <!--Linha Oculta  -->
-            <tr class="hidden-row">
-                <td colspan="4">
-                    <strong>Detalhes sobre João:</strong>
-                    <table class="subtable table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Tipo</th>
-                                <th>Contato</th>
-                                <th>Observação</th>
-                                <th>Ação</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Telefone</td>
-                                <td>(12)21526548</td>
-                                <td>Casa</td>
-                                <td><button class="btn btn-warning">Editar</button> <button
-                                        class="btn btn-danger">Apagar</button>
-                            </tr>
-                            <tr>
-                                <td>Telefone</td>
-                                <td>(12)987964587</td>
-                                <td>Celular</td>
-                                <td><button class="btn btn-warning">Editar</button> <button
-                                        class="btn btn-danger">Apagar</button>
-                            </tr>
-                            <tr>
-                                <td>E-mail</td>
-                                <td>joao@email.com</td>
-                                <td></td>
-                                <td><button class="btn btn-warning">Editar</button> <button
-                                        class="btn btn-danger">Apagar</button>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-
             @foreach (var contato in Model)
             {
                 <tr>
                     <td>@contato.Contato.Nome</td>
                     <td>@contato.Contato.Sobrenome</td>
-                    <td><a class="btn btn-warning" asp-controller="User" asp-action="AtualizaContato" asp-route-id="@contato.Contato.IdContato">Editar</a> 
-                        <a class="btn btn-danger" asp-controller="User" asp-action="DeletaContato" asp-route-id="@contato.Contato.IdContato">Apagar</a>
+                    <td>
+                        @* <a class="btn btn-warning" asp-controller="User" asp-action="AtualizaContato" asp-route-id="@contato.Contato.IdContato">Editar</a>  *@
+                        <a class="btn btn-warning" onclick="abrirModalEditar(@contato.Contato.IdContato)">Editar</a>
+                        <a class="btn btn-danger" asp-controller="User" asp-action="DeletaContato"
+                            asp-route-id="@contato.Contato.IdContato">Apagar</a>
                     </td>
                     <td><button class="btn btn-primary expand">Ver mais</button></td>
                 </tr>
@@ -97,8 +66,12 @@
                                         <td>@endereco.IdTipoContato</td>
                                         <td>@endereco.Valor</td>
                                         <td>@endereco.Observacao</td>
-                                        <td><a class="btn btn-warning" asp-controller="User" asp-action="CadastraEnderecoContato" asp-route-idEnderecoContato="@endereco.IdEnderecoContato">Editar</a> 
-                                            <a class="btn btn-danger" asp-controller="User" asp-action="DeletaEndereco" asp-route-id="@endereco.IdEnderecoContato">Apagar</a>
+                                        <td>
+                                            <a class="btn btn-warning" asp-controller="User"
+                                                asp-action="CadastraEnderecoContato"
+                                                asp-route-idEnderecoContato="@endereco.IdEnderecoContato">Editar</a>
+                                            <a class="btn btn-danger" asp-controller="User" asp-action="DeletaEndereco"
+                                                asp-route-id="@endereco.IdEnderecoContato">Apagar</a>
                                         </td>
                                     </tr>
                                 }
@@ -112,6 +85,14 @@
             }
         </tbody>
     </table>
+</div>
+
+<div class="modal fade" id="modalEditaContato" tabindex="1" aria-labelledby="exampleModal">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modalEditaContatoContent">
+            @* ! O conteudo vai vir por AJAX *@
+        </div>
+    </div>
 </div>
 
 
@@ -136,4 +117,62 @@
             });
         });
     });
+</script>
+
+<script>
+    function abrirModalEditar(idContato) {
+        $.ajax({
+            url: '/User/EditaContatoModal',
+            data: { id: idContato },
+            type: 'GET',
+            success: function (html) {
+                $('#modalEditaContatoContent').html(html);
+                $('#modalEditaContato').modal('show');
+            },
+            error: function () {
+                alert('Erro ao carregar o formulário de edição.');
+            }
+        });
+    }
+
+    function salvarEdicao() {
+        var form = $('#formEditaContato');
+        $.ajax({
+            url: '/User/Atualiza',
+            type: 'POST',
+            data: form.serialize(),
+            success: function (result) {
+                if (result.success) {
+                    $('#modalEditaContato').modal('hide');
+
+                    // Exibir alerta de sucesso
+                    alert(result.message);
+
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
+
+                    // Opcional: Atualizar só a tabela de contatos via AJAX ao invés de dar reload total
+                    location.reload();
+                } else {
+                    alert('Erro: ' + result.message);
+                }
+            },
+            error: function () {
+                alert('Erro ao salvar as alterações.');
+            }
+        });
+    }
+
+    function mostrarAlertaSucesso(mensagem) {
+        let alertDiv = $('<div id="alertSucesso" class="alert alert-success" role="alert">' + mensagem + '</div>');
+        $('body').prepend(alertDiv);
+
+        setTimeout(function () {
+            $('#alertSucesso').fadeOut(5000, function () {
+                $(this).remove();
+            });
+        }, 3000);
+    }
+
 </script>
