@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaContato.CrossCutting"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaContato.Application", "AgendaContato.Application\AgendaContato.Application.csproj", "{6F1DE5E4-936C-4156-A508-7B7CA218C504}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaContato.Mappers", "AgendaContato.Mappers\AgendaContato.Mappers.csproj", "{85CCC362-E521-4469-AE32-829D0EE81B12}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,5 +50,9 @@ Global
 		{6F1DE5E4-936C-4156-A508-7B7CA218C504}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F1DE5E4-936C-4156-A508-7B7CA218C504}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F1DE5E4-936C-4156-A508-7B7CA218C504}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85CCC362-E521-4469-AE32-829D0EE81B12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85CCC362-E521-4469-AE32-829D0EE81B12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85CCC362-E521-4469-AE32-829D0EE81B12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85CCC362-E521-4469-AE32-829D0EE81B12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
