@@ -14,9 +14,10 @@ public class HomeController : Controller
     private readonly ISessao _sessao;
     private readonly IValidaSenha _validaSenha;
     private readonly IValidaEmail _validaEmail;
+    private readonly IRequestMapper<RegistraUsuarioViewModel, UsuarioModel> _requestMapper;
 
     public HomeController(ILogger<HomeController> logger, IUsuarioRepository usuarioRepository, IHashSenha hashSenha, ISessao sessao, IValidaSenha validaSenha,
-                          IValidaEmail validaEmail)
+                          IValidaEmail validaEmail, IRequestMapper<RegistraUsuarioViewModel, UsuarioModel> requestMapper)
     {
         _usuarioRepository = usuarioRepository;
         _logger = logger;
@@ -24,6 +25,7 @@ public class HomeController : Controller
         _sessao = sessao;
         _validaSenha = validaSenha;
         _validaEmail = validaEmail;
+        _requestMapper = requestMapper;
     }
     public IActionResult Index()
     {
@@ -64,7 +66,7 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public IActionResult Registrar(UsuarioModel usuarioModel)
+    public IActionResult Registrar(RegistraUsuarioViewModel registraUsuario)
     {
         if (!ModelState.IsValid)
         {
@@ -72,39 +74,44 @@ public class HomeController : Controller
         }
 
         // Verifica se o email é válido
-        if (!_validaEmail.EmailValido(usuarioModel.Email, out string erroEmail))
+        if (!_validaEmail.EmailValido(registraUsuario.Email, out string erroEmail))
         {
             ModelState.AddModelError("Email", erroEmail);
             return View("Index");
         }
 
         // Verifica se o email já existe
-        if (_usuarioRepository.EmailExiste(usuarioModel.Email))
+        if (_usuarioRepository.EmailExiste(registraUsuario.Email))
         {
             ModelState.AddModelError("Email", "Email já cadastrado");
             return View("Index");
         }
 
-        if (!_validaSenha.SenhaValida(usuarioModel.Senha, out string erroSenha))
+        if (!_validaSenha.SenhaValida(registraUsuario.Senha, out string erroSenha))
         {
             ModelState.AddModelError("Senha", erroSenha);
             return View("Index"); // Garante que o form permaneça preenchido
         }
 
         var salt = _hashSenha.GerarSalt;
-        var senha = _hashSenha.GerarHash(usuarioModel.Senha, salt);
+        var senha = _hashSenha.GerarHash(registraUsuario.Senha, salt);
 
-        var usuario = new UsuarioModel
-        {
-            Nome = usuarioModel.Nome,
-            Email = usuarioModel.Email,
-            Senha = senha,
-            Salt = salt
-        };
+        var usuario = _requestMapper.ToModel(registraUsuario);
+
+        usuario.Senha = senha;
+        usuario.Salt = salt;
+
+        // var usuario = new UsuarioModel
+        // {
+        //     Nome = registraUsuario.Nome,
+        //     Email = registraUsuario.Email,
+        //     Senha = senha,
+        //     Salt = salt
+        // };
 
         _usuarioRepository.CadastrarUsuario(usuario);
 
-        usuario = _usuarioRepository.ObterUsuarioPorEmail(usuarioModel.Email);
+        usuario = _usuarioRepository.ObterUsuarioPorEmail(usuario.Email);
 
         var usuarioSessao = new UsuarioSessaoModel
         {
