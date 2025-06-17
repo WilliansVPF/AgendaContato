@@ -4,7 +4,7 @@ namespace  AgendaContato.Models.Models
 {
     public class UsuarioModel
     {
-        public int? IdUsuario { get; set; }
+        public int IdUsuario { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório")]
         public string Nome { get; set; }
@@ -19,6 +19,6 @@ namespace  AgendaContato.Models.Models
         [Required(ErrorMessage = "Campo obrigatório")]
         public string ConfirmarSenha { get; set; }
         
-        public string? Salt { get; set; }
+        public string Salt { get; set; }
     }
 }
