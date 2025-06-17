@@ -16,12 +16,20 @@ public class UserController : Controller
 
     private readonly IEnderecoContatoRepository _enderecoContaoReposittory;
 
-    public UserController(ILogger<UserController> logger, ISessao sessao, IContatoRepository contatoRepository, IEnderecoContatoRepository enderecoContatoRepository)
+    private readonly IRequestMapper<ContatoEnderecoViewModel, ContatoModel> _requestContatoMapper;
+
+    private readonly IRequestMapper<ContatoEnderecoViewModel, EnderecoContatoModel> _requestEnderecoMapper;
+
+    public UserController(ILogger<UserController> logger, ISessao sessao, IContatoRepository contatoRepository,
+                          IEnderecoContatoRepository enderecoContatoRepository, IRequestMapper<ContatoEnderecoViewModel, ContatoModel> requestContatoMapper,
+                          IRequestMapper<ContatoEnderecoViewModel, EnderecoContatoModel> requestEnderecoMapper)
     {
         _logger = logger;
         _sessao = sessao;
         _contatoRepository = contatoRepository;
         _enderecoContaoReposittory = enderecoContatoRepository;
+        _requestContatoMapper = requestContatoMapper;
+        _requestEnderecoMapper = requestEnderecoMapper;
     }
 
     public IActionResult Index()
@@ -53,8 +61,8 @@ public class UserController : Controller
             return View("CadastraContato");
         }
 
-        ContatoModel contato = ContatoEnderecoToContato(viewModel);
-        EnderecoContatoModel enderecoContato = ContatoEnderecoToEnderecoContato(viewModel);
+        ContatoModel contato = _requestContatoMapper.ToModel(viewModel);
+        EnderecoContatoModel enderecoContato = _requestEnderecoMapper.ToModel(viewModel);
 
         var usuario = _sessao.ObterUsuarioSessao();
 
@@ -127,13 +135,21 @@ public class UserController : Controller
 
         _contatoRepository.AtualizaContato(contato);
 
-        return RedirectToAction("Index", "User");
+        return Json(new { success = true, message = "Contato atualizado com sucesso!"});
     }
 
-        public IActionResult DeletaEndereco(int id)
+    public IActionResult DeletaEndereco(int id)
     {
         if (id == 0) return NotFound();
         _enderecoContaoReposittory.DeletaEnderecoContato(id);
         return RedirectToAction("Index", "User");
+    }
+
+    public IActionResult EditaContatoModal(int id)
+    {
+        var contato = _contatoRepository.CarregaContato(id);
+        if (contato == null) return NotFound();
+
+        return PartialView("_EditaContato", contato);
     }
 }
