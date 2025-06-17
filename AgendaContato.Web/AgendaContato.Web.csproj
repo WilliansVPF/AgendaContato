@@ -6,6 +6,11 @@
     <ProjectReference Include="..\AgendaContato.Repository\AgendaContato.Repository.csproj" />
     <ProjectReference Include="..\AgendaContato.CrossCutting\AgendaContato.CrossCutting.csproj" />
     <ProjectReference Include="..\AgendaContato.Application\AgendaContato.Application.csproj" />
+    <ProjectReference Include="..\AgendaContato.Mappers\AgendaContato.Mappers.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Scrutor" Version="6.1.0" />
   </ItemGroup>
 
   <PropertyGroup>
